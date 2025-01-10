@@ -140,6 +140,7 @@ impl Remote for RemoteResource {
             };
 
             let mut stream = &self.stream;
+            stream.set_nodelay(false).ok();
             match stream.write(data_to_send) {
                 Ok(bytes_sent) => {
                     total_bytes_sent += bytes_sent;
