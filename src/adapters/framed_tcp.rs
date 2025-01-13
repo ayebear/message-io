@@ -103,6 +103,7 @@ impl Remote for RemoteResource {
 
         loop {
             let mut stream = &self.stream;
+            stream.set_nodelay(true).ok();
             match stream.read(&mut input_buffer) {
                 Ok(0) => break ReadStatus::Disconnected,
                 Ok(size) => {
@@ -140,7 +141,7 @@ impl Remote for RemoteResource {
             };
 
             let mut stream = &self.stream;
-            stream.set_nodelay(false).ok();
+            stream.set_nodelay(true).ok();
             match stream.write(data_to_send) {
                 Ok(bytes_sent) => {
                     total_bytes_sent += bytes_sent;
